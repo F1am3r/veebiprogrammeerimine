@@ -15,6 +15,12 @@
 	$loginEmail = "";
 
 	//vifage
+	$signupFirstNameError = "";
+	$signupFamilyNameError = "";
+	$signupBirthDayError = "";
+	$signupGenderError = "";
+	$signupEmailError = "";
+	$signupPasswordError = "";
 	
 	//kas on kasutajanimi sisestatud
 	if (isset ($_POST["loginEmail"])){
@@ -89,7 +95,7 @@
 	if (isset($_POST["signupBirthDay"]) and isset($_POST["signupBirthMonth"])and isset($_POST["signupBirthYear"])){
 		if(checkdate(intval($_POST["signupBirthMonth"]),intval($_POST["signupBirthDay"]),intval($_POST["signupBirthYear"]) )){
 			$birthDate = date_create($_POST["signupBirthMonth"] ."/" .$_POST["signupBirthDay"] ."/" .$_POST["signupBirthYear"]);
-			$sugnupBirthDate = date_format($birthDate, "Y-m-d");
+			$signupBirthDate = date_format($birthDate, "Y-m-d");
 			echo $signupBirthDate;
 		}else{
 			$signupBirthDayError = "Sünnikuupäev ei ole lihtsalt valiidne!";
@@ -105,7 +111,7 @@
 			//$signupGenderError = " (Palun vali sobiv!) Määramata!";
 	}
 	//UUE KASUTAJA LISAMINE ANDMEBAASI
-	if (empty($signupFirstNameError) and empty($signupFamilyNameError) and empty($signupBirthDateError) and empty($signupGenderError) and empty($signupEmailError) 
+	if (empty($signupFirstNameError) and empty($signupFamilyNameError) and empty($signupBirthDayError) and empty($signupGenderError) and empty($signupEmailError) 
 		and empty($signupPasswordError) and !empty($_POST["signupPassword"])){
 			echo "Hakkan andmeid salvestama!";
 			$signupPassword = hash("sha512", $_POST["signupPassword"]);
