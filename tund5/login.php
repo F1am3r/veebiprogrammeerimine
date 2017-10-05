@@ -4,6 +4,11 @@
 	require("../tund5/functions.php");
 	//echo $serverHost;
 
+	//Kui on sisseloginud, siis liigume pealehele
+	if(isset($_SESSION["userId"])){
+		header("Location: main.php");
+		exit();
+	}
 	$signupFirstName = "";
 	$signupFamilyName = "";
 	$signupEmail = "";
@@ -14,7 +19,9 @@
 	$signupBirthDate = null;
 	
 	$loginEmail = "";
-
+	$loginPassword = "";
+	$notice = "";
+	
 	//vifage
 	$signupFirstNameError = "";
 	$signupFamilyNameError = "";
@@ -24,6 +31,10 @@
 	$signupPasswordError = "";
 	
 	$loginEmailError ="";
+	$loginPasswordError = "";
+	
+	//Kas klõpsati sisselogimis nuppu
+	if(isset($_POST["signinButton"])){
 	
 	//kas on kasutajanimi sisestatud
 	if (isset ($_POST["loginEmail"])){
@@ -33,7 +44,23 @@
 			$loginEmail = $_POST["loginEmail"];
 		}
 	}
-
+	//Kas parool on sisestatud?
+	if (isset ($_POST["loginPassword"])){
+		if (empty ($_POST["loginPassword"])){
+			$loginPasswordError ="NB! Ilma selleta ei saa sisse logida!";
+		} else {
+			$loginPassword = $_POST["loginPassword"];
+		}
+	}
+	
+	if(!empty($loginEmail) and !empty($_POST["loginPassword"])){
+		echo "Üritame sisse logida..";
+		$notice = signIn($loginEmail, $_POST["loginPassword"]);
+	}
+	
+	}//sisselogimise klõpsu lõpp
+	
+	
 	//kas luuakse uut kasutajat,vajutati nuppu
 	if(isset($_POST["signupButton"])){
 		
@@ -194,10 +221,13 @@
 	
 		<label>Kasutajanimi (E-post): </label><br>		
 		<input name="loginEmail" type="email" value="<?php echo $loginEmail; ?>">		
+		<span><?php echo $loginEmailError; ?></span>
 		<br><br>		
-		<input name="loginPassword" placeholder="Salasõna" type="password">		
+		<input name="loginPassword" placeholder="Salasõna" type="password">
+		<span><?php echo $loginPasswordError; ?></span>		
 		<br><br>		
-		<input name="submitUser" type="submit" value="Logi sisse">
+		<input name="signinButton" type="submit" value="Logi sisse">
+		<span><?php echo $notice; ?></span>
 		
 	</form>
 
