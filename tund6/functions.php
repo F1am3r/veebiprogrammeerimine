@@ -12,9 +12,9 @@
 	function signIn($email, $password){
 		$notice = "";
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		$stmt = $mysqli ->prepare("SELECT id, email, password FROM vpusers WHERE email = ?");
+		$stmt = $mysqli ->prepare("SELECT id, firstname, lastname, email, password FROM vpusers WHERE email = ?");
 		$stmt ->bind_param("s",$email);
-		$stmt ->bind_result($id, $emailFromDb, $passwordFromDb);
+		$stmt ->bind_result($id, $firstnameFromDb, $lastnameFromDb, $emailFromDb, $passwordFromDb);
 		$stmt->execute();
 		
 		//KOntrollime kasutajat
@@ -25,6 +25,8 @@
 			
 			//salvestame sessioonimuutujad
 			$_SESSION["userId"] = $id;
+			$_SESSION["userfirstname"] = $firstnameFromDb;
+			$_SESSION["userlastname"] = $lastnameFromDb;
 			$_SESSION["userEmail"] = $emailFromDb;
 			
 			//liigume pealehele
@@ -124,6 +126,30 @@
 		$data = htmlspecialchars($data);//eemaldab keelatud märgid
 		return $data;
 	}
+	
+	//Kuvame kasutajad
+	function listUsers(){
+		$notice = "";
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		$stmt = $mysqli->prepare("SELECT id, firstname, lastname, birthday, email, gender  FROM vpusers");
+		echo $mysqli->error;
+		$stmt -> bind_result($userid, $firstname, $lastname, $birthday, $email, $gender);
+		$stmt->execute();
+		
+		while($stmt->fetch()){
+			if($gender == 1){
+				$gender = "mees";
+			} else {
+				$gender = "naine";
+			}								
+			$notice .= "<tr><td>".$userid."</td><td>".$firstname."</td><td>".$lastname."</td><td>".$birthday."</td><td>".$email."</td><td>".$gender."</td><tr> \n";
+		}
+		
+		$stmt->close();
+		$mysqli->close();
+		return $notice;
+	}
+	
 	
 	/* $x =8;
 	$y =5;
