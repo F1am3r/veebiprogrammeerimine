@@ -51,6 +51,7 @@
 	<p>See veebileht on loodud õppetöö raames ning ei sisalda mingisugust tõsiseltvõetavat sisu!</p>
 	<br>
 	<p><a href="usersIdeas.php">Head mõtted</a></p>
+	<p><a href="photoUpload.php">Fotode üleslaadimine</a></p>
 	<p><a href="usersInfo.php">Kasutaja info</a></p>
 	<br>
 	<p><a href="?Logout=1">Logi välja!</a></p>

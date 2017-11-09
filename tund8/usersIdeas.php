@@ -32,9 +32,10 @@
 	<title>Jan-Rossi veebiprogrammerimise raames loodud leht</title>
 </head>
 <body>
-	<h1>Head mõtted</h1>
+	<h1>Teretulemast <?php echo $_SESSION["userfirstname"] ." " .$_SESSION["userlastname"]; ?></h1>
 	<p>See veebileht on loodud õppetöö raames ning ei 
 	sisalda mingisugust tõsiseltvõetavat sisu!</p>
+	<br>
 	<p><a href="main.php">Pealeht</a></p>
 	<br>
 	<p><a href="?Logout=1">Logi välja</a></p>
